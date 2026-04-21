@@ -23,6 +23,11 @@ export default function SettingsPage() {
   const [form, setForm] = useState(profile);
   const [saved, setSaved] = useState(false);
 
+  // Keep form in sync if profile is loaded from localStorage after mount
+  useEffect(() => {
+    setForm(profile);
+  }, [profile]);
+
   const handleChange = (key: keyof UserProfile, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };

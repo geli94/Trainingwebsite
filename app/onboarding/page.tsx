@@ -7,6 +7,15 @@ import { UserProfile } from '../../types';
 
 const steps = ['Weight', 'Training', 'Schedule'];
 
+const defaultProfile: UserProfile = {
+  goal: 'lose-weight',
+  currentWeight: 110,
+  height: 185,
+  trainingDays: 4,
+  preferredTime: 'morning',
+  sessionLength: 45,
+};
+
 const inputStyle = {
   background: '#0D1424',
   border: '1px solid rgba(255,255,255,0.07)',
@@ -15,22 +24,8 @@ const inputStyle = {
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [, setProfile] = useLocalStorage<UserProfile>('fitstartProfile', {
-    goal: 'lose-weight',
-    currentWeight: 110,
-    height: 185,
-    trainingDays: 4,
-    preferredTime: 'morning',
-    sessionLength: 45,
-  });
-  const [form, setForm] = useState<UserProfile>({
-    goal: 'lose-weight',
-    currentWeight: 110,
-    height: 185,
-    trainingDays: 4,
-    preferredTime: 'morning',
-    sessionLength: 45,
-  });
+  const [, setProfile] = useLocalStorage<UserProfile>('fitstartProfile', defaultProfile);
+  const [form, setForm] = useState<UserProfile>(defaultProfile);
   const [step, setStep] = useState(0);
 
   const handleChange = (key: keyof UserProfile, value: any) => {

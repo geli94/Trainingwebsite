@@ -41,8 +41,9 @@ export default function TimerControls() {
     setIntervalPhase(0);
   };
 
-  const setPreset = (mins: number) => {
-    setSecondsRemaining(mins * 60);
+  // setPreset accepts duration in seconds
+  const setPreset = (secs: number) => {
+    setSecondsRemaining(secs);
     setRunning(false);
     setIntervalPhase(0);
   };
@@ -132,7 +133,7 @@ export default function TimerControls() {
               key={`rest-${t}`}
               className="rounded-xl py-2.5 text-xs font-semibold transition-opacity active:opacity-70"
               style={{ background: '#0D1424', color: '#64748B', border: '1px solid rgba(255,255,255,0.06)' }}
-              onClick={() => setPreset(t / 60)}
+              onClick={() => setPreset(t)}
             >
               {t}s
             </button>
@@ -151,7 +152,7 @@ export default function TimerControls() {
               key={`cardio-${t}`}
               className="rounded-xl py-2.5 text-xs font-semibold transition-opacity active:opacity-70"
               style={{ background: '#0D1424', color: '#64748B', border: '1px solid rgba(255,255,255,0.06)' }}
-              onClick={() => setPreset(t)}
+              onClick={() => setPreset(t * 60)}
             >
               {t} min
             </button>

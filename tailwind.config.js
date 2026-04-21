@@ -7,6 +7,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        // Inter is the preferred font. Load it via <link> in _document or a CDN stylesheet.
+        // The system-font fallbacks (SF Pro, Segoe UI, Roboto) ensure a premium look
+        // even when Inter is not available.
         sans: [
           'Inter',
           'ui-sans-serif',

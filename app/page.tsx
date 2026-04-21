@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react';
 import { useLocalStorage } from '../lib/useLocalStorage';
 import { UserProfile, WorkoutDay } from '../types';
 import { workoutPlans } from '../data/workouts';
