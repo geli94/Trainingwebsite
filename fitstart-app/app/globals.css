@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles for the FitStart app */
+html,
+body {
+  @apply bg-background text-accent antialiased;
+}
+
+/* Utility classes for card shadows and transitions */
+.card {
+  @apply rounded-2xl bg-background-card shadow-lg p-4;
+}
