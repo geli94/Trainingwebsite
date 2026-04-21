@@ -6,12 +6,21 @@ import BottomNav from '../../components/BottomNav';
 
 export default function TimerPage() {
   return (
-    <div className="pb-24 px-4 pt-6 flex flex-col items-center">
-      <h1 className="text-xl font-semibold text-primary-light mb-4">Timer</h1>
-      <p className="text-sm text-accent/60 text-center mb-4">
-        Use the timer for your workouts, rest periods and cardio sessions. Select a preset or choose interval mode for treadmill sessions.
+    <div className="px-4 pt-8 pb-6 flex flex-col">
+      {/* Header */}
+      <div className="mb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-accent-muted mb-1">
+          Workout Timer
+        </p>
+        <h1 className="text-2xl font-bold text-accent tracking-tight">Timer</h1>
+      </div>
+
+      <p className="text-sm text-accent-muted mb-8 leading-relaxed">
+        Use presets for rest periods or select interval mode for treadmill sessions.
       </p>
+
       <TimerControls />
+
       <BottomNav />
     </div>
   );

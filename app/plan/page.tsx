@@ -17,35 +17,51 @@ export default function PlanPage() {
     sessionLength: 45,
   });
   const [selectedDays, setSelectedDays] = useState<number>(profile.trainingDays);
-
   const plan = workoutPlans[selectedDays] ?? workoutPlans[4];
 
   return (
-    <div className="pb-24 px-4 pt-6">
-      <h1 className="text-xl font-semibold text-primary-light mb-4">Training Plan</h1>
-      {/* Toggle for plan length */}
-      <div className="flex gap-2 mb-4">
+    <div className="px-4 pt-8 pb-6">
+      {/* Header */}
+      <div className="mb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-accent-muted mb-1">
+          Weekly Schedule
+        </p>
+        <h1 className="text-2xl font-bold text-accent tracking-tight">Training Plan</h1>
+      </div>
+
+      {/* Day selector */}
+      <div className="flex gap-2 mb-6">
         {[3, 4, 5].map((d) => (
           <button
             key={d}
             onClick={() => setSelectedDays(d)}
-            className={
-              'px-3 py-1 rounded-lg text-sm ' +
-              (selectedDays === d
-                ? 'bg-primary-light text-background font-medium'
-                : 'bg-background-light text-accent')
+            className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all active:opacity-75"
+            style={
+              selectedDays === d
+                ? { background: '#3B6EAF', color: '#E8EDF5', boxShadow: '0 0 12px rgba(59,110,175,0.4)' }
+                : { background: '#0D1424', color: '#64748B', border: '1px solid rgba(255,255,255,0.06)' }
             }
           >
             {d} Days
           </button>
         ))}
       </div>
-      {/* List of workout days */}
+
+      {/* Workout list */}
       <div>
-        {plan.days.map((day, idx) => (
-          <WorkoutCard key={day.id} day={day} dayIndex={idx} planId={plan.id} />
-        ))}
+        {plan.days.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <span className="text-4xl mb-4">📋</span>
+            <p className="text-accent font-semibold mb-1">No workouts yet</p>
+            <p className="text-sm text-accent-muted">Select a plan above to get started.</p>
+          </div>
+        ) : (
+          plan.days.map((day, idx) => (
+            <WorkoutCard key={day.id} day={day} dayIndex={idx} planId={plan.id} />
+          ))
+        )}
       </div>
+
       <BottomNav />
     </div>
   );
