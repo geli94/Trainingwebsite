@@ -160,6 +160,7 @@ export default function WorkoutDetailPage() {
       <div className="flex gap-3">
         <button
           onClick={handleFinishWorkout}
+          aria-label="Finish workout and return to dashboard"
           className="flex-1 rounded-2xl py-4 text-sm font-bold transition-opacity active:opacity-80"
           style={{
             background: 'linear-gradient(135deg, #3B6EAF, #4A90D9)',

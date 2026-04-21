@@ -8,7 +8,7 @@ body {
   @apply bg-background text-accent antialiased;
   font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'SF Pro Display',
     'Segoe UI', Roboto, sans-serif;
-  /* Prevent double-tap zoom on mobile */
+  /* Prevent double-tap zoom delay on mobile; pinch-zoom is NOT affected */
   touch-action: manipulation;
   /* Lock to mobile viewport */
   max-width: 100vw;

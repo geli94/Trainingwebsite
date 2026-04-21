@@ -11,7 +11,7 @@ export default function TimerControls() {
   // Interval timer config: [warmUp, work, coolDown] in minutes
   const intervalConfig = [5, 20, 5];
   const [intervalPhase, setIntervalPhase] = useState<0 | 1 | 2>(0);
-  const phaseLabels = ['Warm‑up', 'Incline Walk', 'Cool Down'];
+  const phaseLabels = ['Warm-up', 'Incline Walk', 'Cool Down'];
 
   useEffect(() => {
     if (!running) return;
@@ -173,7 +173,7 @@ export default function TimerControls() {
         Start Interval Mode (5 / 20 / 5)
       </button>
       <p className="text-[11px] text-accent/30 text-center -mt-3">
-        5 min warm‑up · 20 min incline walk · 5 min cool down
+        5 min warm-up · 20 min incline walk · 5 min cool down
       </p>
     </div>
   );

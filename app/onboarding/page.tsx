@@ -223,6 +223,7 @@ export default function OnboardingPage() {
           ) : (
             <button
               type="submit"
+              aria-label="Complete setup and get started"
               className="flex-1 rounded-2xl py-4 text-sm font-bold transition-opacity active:opacity-75"
               style={{
                 background: 'linear-gradient(135deg, #3B6EAF, #4A90D9)',
