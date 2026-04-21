@@ -62,7 +62,7 @@ export default function TimerControls() {
     if (!running || secondsRemaining > 0) return;
     // Move to next phase if available
     const nextPhase = (intervalPhase + 1) as 0 | 1 | 2;
-    if (nextPhase < intervalConfig.length as number) {
+    if (nextPhase < intervalConfig.length) {
       setIntervalPhase(nextPhase);
       setSecondsRemaining(intervalConfig[nextPhase] * 60);
     }
