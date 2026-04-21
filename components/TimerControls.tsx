@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- * A versatile timer component with presets for rest, cardio and interval workouts.
- * It provides start, pause and reset controls. Timers count down from the
- * selected preset and stop at zero. This component is intentionally
- * self‑contained so it can be used on the timer page.
+ * Premium timer component with a large circular clock face.
+ * Provides start, pause and reset controls plus presets and interval mode.
  */
 export default function TimerControls() {
   const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
@@ -13,6 +11,7 @@ export default function TimerControls() {
   // Interval timer config: [warmUp, work, coolDown] in minutes
   const intervalConfig = [5, 20, 5];
   const [intervalPhase, setIntervalPhase] = useState<0 | 1 | 2>(0);
+  const phaseLabels = ['Warm‑up', 'Incline Walk', 'Cool Down'];
 
   useEffect(() => {
     if (!running) return;
@@ -42,17 +41,14 @@ export default function TimerControls() {
     setIntervalPhase(0);
   };
 
-  // Presets for rest and cardio timers
   const setPreset = (mins: number) => {
     setSecondsRemaining(mins * 60);
     setRunning(false);
     setIntervalPhase(0);
   };
 
-  // Start interval mode
   const startInterval = () => {
-    const firstPhaseDuration = intervalConfig[0] * 60;
-    setSecondsRemaining(firstPhaseDuration);
+    setSecondsRemaining(intervalConfig[0] * 60);
     setIntervalPhase(0);
     setRunning(true);
   };
@@ -60,7 +56,6 @@ export default function TimerControls() {
   // Switch interval phases as time expires
   useEffect(() => {
     if (!running || secondsRemaining > 0) return;
-    // Move to next phase if available
     const nextPhase = (intervalPhase + 1) as 0 | 1 | 2;
     if (nextPhase < intervalConfig.length) {
       setIntervalPhase(nextPhase);
@@ -69,64 +64,115 @@ export default function TimerControls() {
   }, [secondsRemaining, running, intervalPhase]);
 
   return (
-    <div className="flex flex-col items-center gap-4 mt-4">
-      {/* Timer display */}
-      <div className="text-5xl font-bold text-primary-light">
-        {formatTime(secondsRemaining)}
-      </div>
-      {/* Controls */}
-      <div className="flex gap-4">
-        <button
-          className="bg-primary rounded-full px-4 py-2 text-accent font-medium"
-          onClick={startTimer}
+    <div className="flex flex-col items-center gap-6 w-full">
+      {/* Clock face */}
+      <div
+        className="w-52 h-52 rounded-full flex flex-col items-center justify-center"
+        style={{
+          background: 'radial-gradient(circle at 40% 40%, #131F35, #0D1424)',
+          border: '2px solid rgba(74,144,217,0.2)',
+          boxShadow: running
+            ? '0 0 40px rgba(74,144,217,0.3), inset 0 0 30px rgba(74,144,217,0.05)'
+            : '0 0 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.3)',
+        }}
+      >
+        <span
+          className="text-5xl font-bold tracking-tighter tabular-nums"
+          style={{ color: running ? '#60A5FA' : '#E8EDF5' }}
         >
-          Start
-        </button>
+          {formatTime(secondsRemaining)}
+        </span>
+        {running && intervalPhase !== undefined && (
+          <span className="text-[11px] text-accent-muted mt-1 font-medium">
+            {phaseLabels[intervalPhase]}
+          </span>
+        )}
+        {secondsRemaining === 0 && !running && (
+          <span className="text-[11px] text-accent/30 mt-1">Set a preset</span>
+        )}
+      </div>
+
+      {/* Main controls */}
+      <div className="flex gap-3 w-full">
         <button
-          className="bg-secondary rounded-full px-4 py-2 text-accent font-medium"
           onClick={pauseTimer}
+          className="flex-1 rounded-2xl py-3 text-sm font-semibold transition-opacity active:opacity-70"
+          style={{ background: '#1E2D45', color: '#E8EDF5' }}
         >
           Pause
         </button>
         <button
-          className="bg-background-light rounded-full px-4 py-2 text-accent font-medium"
+          onClick={startTimer}
+          className="flex-[2] rounded-2xl py-3 text-sm font-bold transition-opacity active:opacity-70"
+          style={{
+            background: 'linear-gradient(135deg, #3B6EAF, #4A90D9)',
+            color: '#E8EDF5',
+            boxShadow: '0 0 16px rgba(74,144,217,0.35)',
+          }}
+        >
+          Start
+        </button>
+        <button
           onClick={resetTimer}
+          className="flex-1 rounded-2xl py-3 text-sm font-semibold transition-opacity active:opacity-70"
+          style={{ background: '#1E2D45', color: '#E8EDF5' }}
         >
           Reset
         </button>
       </div>
-      {/* Preset buttons */}
-      <div className="w-full grid grid-cols-4 gap-2 mt-4">
-        {[30, 45, 60, 90].map((t) => (
-          <button
-            key={`rest-${t}`}
-            className="bg-background-light rounded-lg px-2 py-1 text-xs text-accent hover:bg-primary-light/30"
-            onClick={() => setPreset(t)}
-          >
-            Rest {t}s
-          </button>
-        ))}
+
+      {/* Rest presets */}
+      <div className="w-full">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-accent-muted mb-2">
+          Rest Presets
+        </p>
+        <div className="grid grid-cols-4 gap-2">
+          {[30, 45, 60, 90].map((t) => (
+            <button
+              key={`rest-${t}`}
+              className="rounded-xl py-2.5 text-xs font-semibold transition-opacity active:opacity-70"
+              style={{ background: '#0D1424', color: '#64748B', border: '1px solid rgba(255,255,255,0.06)' }}
+              onClick={() => setPreset(t / 60)}
+            >
+              {t}s
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="w-full grid grid-cols-3 gap-2 mt-2">
-        {[10, 20, 30].map((t) => (
-          <button
-            key={`cardio-${t}`}
-            className="bg-background-light rounded-lg px-2 py-1 text-xs text-accent hover:bg-primary-light/30"
-            onClick={() => setPreset(t * 60)}
-          >
-            Cardio {t}m
-          </button>
-        ))}
+
+      {/* Cardio presets */}
+      <div className="w-full">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-accent-muted mb-2">
+          Cardio Presets
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {[10, 20, 30].map((t) => (
+            <button
+              key={`cardio-${t}`}
+              className="rounded-xl py-2.5 text-xs font-semibold transition-opacity active:opacity-70"
+              style={{ background: '#0D1424', color: '#64748B', border: '1px solid rgba(255,255,255,0.06)' }}
+              onClick={() => setPreset(t)}
+            >
+              {t} min
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* Interval mode */}
       <button
-        className="mt-4 bg-primary rounded-xl px-4 py-2 text-accent font-medium"
+        className="w-full rounded-2xl py-3.5 text-sm font-bold transition-opacity active:opacity-70"
+        style={{
+          background: '#131F35',
+          color: '#4A90D9',
+          border: '1px solid rgba(74,144,217,0.25)',
+        }}
         onClick={startInterval}
       >
-        Start Interval (5/20/5)
+        Start Interval Mode (5 / 20 / 5)
       </button>
-      {/* Explanation note for the interval timer */}
-      <p className="text-xs text-accent/60 mt-2 max-w-xs text-center">
-        Interval mode: 5 min warm‑up, 20 min incline walk, 5 min cool down.
+      <p className="text-[11px] text-accent/30 text-center -mt-3">
+        5 min warm‑up · 20 min incline walk · 5 min cool down
       </p>
     </div>
   );

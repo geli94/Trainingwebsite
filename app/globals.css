@@ -6,9 +6,64 @@
 html,
 body {
   @apply bg-background text-accent antialiased;
+  font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'Segoe UI', Roboto, sans-serif;
+  /* Prevent double-tap zoom on mobile */
+  touch-action: manipulation;
+  /* Lock to mobile viewport */
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Always enforce dark background regardless of system preference */
+html {
+  background-color: #070C18;
+  color-scheme: dark;
 }
 
 /* Utility classes for card shadows and transitions */
 .card {
-  @apply rounded-2xl bg-background-card shadow-lg p-4;
+  @apply rounded-2xl bg-background-card shadow-card p-4;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Premium card with top border glow */
+.card-hero {
+  @apply rounded-3xl p-5 shadow-glow;
+  background: linear-gradient(135deg, #1A365D 0%, #274472 50%, #3C6E91 100%);
+  border: 1px solid rgba(74,144,217,0.2);
+}
+
+/* Section label style */
+.section-label {
+  @apply text-xs font-semibold uppercase tracking-widest text-accent-muted;
+}
+
+/* Page header style */
+.page-title {
+  @apply text-2xl font-bold text-accent tracking-tight;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E2D45;
+  border-radius: 4px;
+}
+
+/* Remove default button tap highlight */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+/* Form inputs */
+input, select, textarea {
+  @apply text-accent bg-background-elevated;
+  border: 1px solid rgba(255,255,255,0.06);
 }
